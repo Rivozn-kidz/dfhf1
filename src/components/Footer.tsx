@@ -1,4 +1,5 @@
 import { Mail, MapPin, Phone, Youtube, Instagram, Facebook, Linkedin, Twitter, Github } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -33,16 +34,26 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              {["About Us", "Services", "Portfolio", "Careers", "Blog"].map((link) => (
-                <li key={link}>
-                  <a
-                    href="#"
-                    className="text-muted-foreground hover:text-primary transition-colors text-sm"
-                  >
-                    {link}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                  Services
+                </Link>
+              </li>
+              <li>
+                <Link to="/team" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                  Team
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                  Contact
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -50,22 +61,31 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4">Services</h4>
             <ul className="space-y-2">
-              {[
-                "Web Development",
-                "3D Solutions",
-                "UI/UX Design",
-                "Digital Innovation",
-                "Consulting",
-              ].map((service) => (
-                <li key={service}>
-                  <a
-                    href="#"
-                    className="text-muted-foreground hover:text-primary transition-colors text-sm"
-                  >
-                    {service}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <Link to="/services" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                  Web Development
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                  3D Solutions
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                  UI/UX Design
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                  Digital Innovation
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                  Consulting
+                </Link>
+              </li>
             </ul>
           </div>
 

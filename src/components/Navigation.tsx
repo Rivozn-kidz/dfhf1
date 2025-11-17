@@ -1,11 +1,36 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
   const navLinks = ["Services", "Portfolio", "Team", "About", "Contact"];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = navLinks.map(link => document.getElementById(link.toLowerCase()));
+      const scrollPosition = window.scrollY + 100;
+
+      for (const section of sections) {
+        if (section) {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+          
+          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            setActiveSection(section.id);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
@@ -23,7 +48,11 @@ const Navigation = () => {
               <a
                 key={link}
                 href={`#${link.toLowerCase()}`}
-                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                className={`text-sm font-medium transition-colors ${
+                  activeSection === link.toLowerCase()
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-primary"
+                }`}
               >
                 {link}
               </a>
@@ -49,7 +78,11 @@ const Navigation = () => {
               <a
                 key={link}
                 href={`#${link.toLowerCase()}`}
-                className="block text-sm font-medium text-muted-foreground hover:text-primary transition-colors py-2"
+                className={`block text-sm font-medium transition-colors py-2 ${
+                  activeSection === link.toLowerCase()
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-primary"
+                }`}
                 onClick={() => setIsOpen(false)}
               >
                 {link}

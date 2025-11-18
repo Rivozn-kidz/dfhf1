@@ -4,11 +4,47 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, Phone, MapPin } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 const Contact = () => {
-  const handleSubmit = (e: React.FormEvent) => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission
+    setIsSubmitting(true);
+
+    const formData = new FormData(e.currentTarget);
+    
+    try {
+      // Replace 'YOUR_FORM_ID' with your actual Formspree form ID
+      const response = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Message sent!",
+          description: "We'll get back to you within 24 hours.",
+        });
+        e.currentTarget.reset();
+      } else {
+        throw new Error("Failed to send message");
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -41,6 +77,7 @@ const Contact = () => {
                   </label>
                   <Input
                     id="name"
+                    name="name"
                     type="text"
                     placeholder="Your name"
                     required
@@ -53,6 +90,7 @@ const Contact = () => {
                   </label>
                   <Input
                     id="email"
+                    name="email"
                     type="email"
                     placeholder="your.email@example.com"
                     required
@@ -65,6 +103,7 @@ const Contact = () => {
                   </label>
                   <Input
                     id="subject"
+                    name="subject"
                     type="text"
                     placeholder="How can we help?"
                     required
@@ -77,13 +116,14 @@ const Contact = () => {
                   </label>
                   <Textarea
                     id="message"
+                    name="message"
                     placeholder="Tell us about your project..."
                     required
                     className="w-full min-h-[150px]"
                   />
                 </div>
-                <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
-                  Send Message
+                <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={isSubmitting}>
+                  {isSubmitting ? "Sending..." : "Send Message"}
                 </Button>
               </form>
             </div>

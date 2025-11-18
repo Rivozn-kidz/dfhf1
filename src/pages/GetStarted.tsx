@@ -5,11 +5,53 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CheckCircle2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 const GetStarted = () => {
-  const handleSubmit = (e: React.FormEvent) => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedService, setSelectedService] = useState("");
+  const [selectedBudget, setSelectedBudget] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission
+    setIsSubmitting(true);
+
+    const formData = new FormData(e.currentTarget);
+    formData.append("service", selectedService);
+    formData.append("budget", selectedBudget);
+    
+    try {
+      // Replace 'YOUR_FORM_ID' with your actual Formspree form ID
+      const response = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Request submitted!",
+          description: "We'll review your project and get back to you within 24 hours.",
+        });
+        e.currentTarget.reset();
+        setSelectedService("");
+        setSelectedBudget("");
+      } else {
+        throw new Error("Failed to submit request");
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to submit request. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const benefits = [
@@ -52,6 +94,7 @@ const GetStarted = () => {
                     </label>
                     <Input
                       id="firstName"
+                      name="firstName"
                       type="text"
                       placeholder="John"
                       required
@@ -63,6 +106,7 @@ const GetStarted = () => {
                     </label>
                     <Input
                       id="lastName"
+                      name="lastName"
                       type="text"
                       placeholder="Doe"
                       required
@@ -76,6 +120,7 @@ const GetStarted = () => {
                   </label>
                   <Input
                     id="email"
+                    name="email"
                     type="email"
                     placeholder="john@company.com"
                     required
@@ -88,6 +133,7 @@ const GetStarted = () => {
                   </label>
                   <Input
                     id="company"
+                    name="company"
                     type="text"
                     placeholder="Your Company"
                   />
@@ -97,7 +143,7 @@ const GetStarted = () => {
                   <label htmlFor="service" className="block text-sm font-medium mb-2">
                     Service Interested In
                   </label>
-                  <Select>
+                  <Select value={selectedService} onValueChange={setSelectedService}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select a service" />
                     </SelectTrigger>
@@ -116,7 +162,7 @@ const GetStarted = () => {
                   <label htmlFor="budget" className="block text-sm font-medium mb-2">
                     Budget Range
                   </label>
-                  <Select>
+                  <Select value={selectedBudget} onValueChange={setSelectedBudget}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select budget range" />
                     </SelectTrigger>
@@ -135,14 +181,15 @@ const GetStarted = () => {
                   </label>
                   <Textarea
                     id="projectDetails"
+                    name="projectDetails"
                     placeholder="Tell us about your project, goals, and timeline..."
                     required
                     className="min-h-[150px]"
                   />
                 </div>
 
-                <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
-                  Submit Project Request
+                <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={isSubmitting}>
+                  {isSubmitting ? "Submitting..." : "Submit Project Request"}
                 </Button>
               </form>
             </div>

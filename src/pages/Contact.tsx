@@ -5,47 +5,21 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useForm, ValidationError } from "@formspree/react";
+import { useEffect } from "react";
 
 const Contact = () => {
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [state, handleSubmit] = useForm("xanvwarb");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    const formData = new FormData(e.currentTarget);
-    
-    try {
-      // Replace 'YOUR_FORM_ID' with your actual Formspree form ID
-      const response = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
-        method: "POST",
-        body: formData,
-        headers: {
-          Accept: "application/json",
-        },
-      });
-
-      if (response.ok) {
-        toast({
-          title: "Message sent!",
-          description: "We'll get back to you within 24 hours.",
-        });
-        e.currentTarget.reset();
-      } else {
-        throw new Error("Failed to send message");
-      }
-    } catch (error) {
+  useEffect(() => {
+    if (state.succeeded) {
       toast({
-        title: "Error",
-        description: "Failed to send message. Please try again.",
-        variant: "destructive",
+        title: "Message sent!",
+        description: "We'll get back to you within 24 hours.",
       });
-    } finally {
-      setIsSubmitting(false);
     }
-  };
+  }, [state.succeeded, toast]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -83,6 +57,11 @@ const Contact = () => {
                     required
                     className="w-full"
                   />
+                  <ValidationError 
+                    prefix="Name" 
+                    field="name"
+                    errors={state.errors}
+                  />
                 </div>
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium mb-2">
@@ -95,6 +74,11 @@ const Contact = () => {
                     placeholder="your.email@example.com"
                     required
                     className="w-full"
+                  />
+                  <ValidationError 
+                    prefix="Email" 
+                    field="email"
+                    errors={state.errors}
                   />
                 </div>
                 <div>
@@ -109,6 +93,11 @@ const Contact = () => {
                     required
                     className="w-full"
                   />
+                  <ValidationError 
+                    prefix="Subject" 
+                    field="subject"
+                    errors={state.errors}
+                  />
                 </div>
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium mb-2">
@@ -121,9 +110,14 @@ const Contact = () => {
                     required
                     className="w-full min-h-[150px]"
                   />
+                  <ValidationError 
+                    prefix="Message" 
+                    field="message"
+                    errors={state.errors}
+                  />
                 </div>
-                <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={isSubmitting}>
-                  {isSubmitting ? "Sending..." : "Send Message"}
+                <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={state.submitting}>
+                  {state.submitting ? "Sending..." : "Send Message"}
                 </Button>
               </form>
             </div>

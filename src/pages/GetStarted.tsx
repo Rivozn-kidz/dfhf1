@@ -6,53 +6,25 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CheckCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useForm, ValidationError } from "@formspree/react";
+import { useState, useEffect } from "react";
 
 const GetStarted = () => {
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [state, handleSubmit] = useForm("xanvwarb");
   const [selectedService, setSelectedService] = useState("");
   const [selectedBudget, setSelectedBudget] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    const formData = new FormData(e.currentTarget);
-    formData.append("service", selectedService);
-    formData.append("budget", selectedBudget);
-    
-    try {
-      // Replace 'YOUR_FORM_ID' with your actual Formspree form ID
-      const response = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
-        method: "POST",
-        body: formData,
-        headers: {
-          Accept: "application/json",
-        },
-      });
-
-      if (response.ok) {
-        toast({
-          title: "Request submitted!",
-          description: "We'll review your project and get back to you within 24 hours.",
-        });
-        e.currentTarget.reset();
-        setSelectedService("");
-        setSelectedBudget("");
-      } else {
-        throw new Error("Failed to submit request");
-      }
-    } catch (error) {
+  useEffect(() => {
+    if (state.succeeded) {
       toast({
-        title: "Error",
-        description: "Failed to submit request. Please try again.",
-        variant: "destructive",
+        title: "Request submitted!",
+        description: "We'll review your project and get back to you within 24 hours.",
       });
-    } finally {
-      setIsSubmitting(false);
+      setSelectedService("");
+      setSelectedBudget("");
     }
-  };
+  }, [state.succeeded, toast]);
 
   const benefits = [
     "Free initial consultation",
@@ -99,6 +71,11 @@ const GetStarted = () => {
                       placeholder="John"
                       required
                     />
+                    <ValidationError 
+                      prefix="First Name" 
+                      field="firstName"
+                      errors={state.errors}
+                    />
                   </div>
                   <div>
                     <label htmlFor="lastName" className="block text-sm font-medium mb-2">
@@ -110,6 +87,11 @@ const GetStarted = () => {
                       type="text"
                       placeholder="Doe"
                       required
+                    />
+                    <ValidationError 
+                      prefix="Last Name" 
+                      field="lastName"
+                      errors={state.errors}
                     />
                   </div>
                 </div>
@@ -125,6 +107,11 @@ const GetStarted = () => {
                     placeholder="john@company.com"
                     required
                   />
+                  <ValidationError 
+                    prefix="Email" 
+                    field="email"
+                    errors={state.errors}
+                  />
                 </div>
 
                 <div>
@@ -137,13 +124,18 @@ const GetStarted = () => {
                     type="text"
                     placeholder="Your Company"
                   />
+                  <ValidationError 
+                    prefix="Company" 
+                    field="company"
+                    errors={state.errors}
+                  />
                 </div>
 
                 <div>
                   <label htmlFor="service" className="block text-sm font-medium mb-2">
                     Service Interested In
                   </label>
-                  <Select value={selectedService} onValueChange={setSelectedService}>
+                  <Select name="service" value={selectedService} onValueChange={setSelectedService}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select a service" />
                     </SelectTrigger>
@@ -156,13 +148,18 @@ const GetStarted = () => {
                       <SelectItem value="data">Data Analytics</SelectItem>
                     </SelectContent>
                   </Select>
+                  <ValidationError 
+                    prefix="Service" 
+                    field="service"
+                    errors={state.errors}
+                  />
                 </div>
 
                 <div>
                   <label htmlFor="budget" className="block text-sm font-medium mb-2">
                     Budget Range
                   </label>
-                  <Select value={selectedBudget} onValueChange={setSelectedBudget}>
+                  <Select name="budget" value={selectedBudget} onValueChange={setSelectedBudget}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select budget range" />
                     </SelectTrigger>
@@ -173,6 +170,11 @@ const GetStarted = () => {
                       <SelectItem value="100k">$100,000+</SelectItem>
                     </SelectContent>
                   </Select>
+                  <ValidationError 
+                    prefix="Budget" 
+                    field="budget"
+                    errors={state.errors}
+                  />
                 </div>
 
                 <div>
@@ -186,10 +188,18 @@ const GetStarted = () => {
                     required
                     className="min-h-[150px]"
                   />
+                  <ValidationError 
+                    prefix="Project Details" 
+                    field="projectDetails"
+                    errors={state.errors}
+                  />
                 </div>
 
-                <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={isSubmitting}>
-                  {isSubmitting ? "Submitting..." : "Submit Project Request"}
+                <input type="hidden" name="service" value={selectedService} />
+                <input type="hidden" name="budget" value={selectedBudget} />
+
+                <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={state.submitting}>
+                  {state.submitting ? "Submitting..." : "Submit Project Request"}
                 </Button>
               </form>
             </div>

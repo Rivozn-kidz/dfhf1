@@ -1,11 +1,26 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { User } from "@supabase/supabase-js";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
   const location = useLocation();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const navLinks = [
     { name: "Services", path: "/services" },
@@ -39,9 +54,20 @@ const Navigation = () => {
                 {link.name}
               </Link>
             ))}
-            <Button className="bg-primary hover:bg-primary/90" asChild>
-              <Link to="/get-started">Get Started</Link>
-            </Button>
+            {user ? (
+              <Button variant="outline" asChild>
+                <Link to="/dashboard">Dashboard</Link>
+              </Button>
+            ) : (
+              <>
+                <Button variant="outline" asChild>
+                  <Link to="/auth">Sign In</Link>
+                </Button>
+                <Button className="bg-primary hover:bg-primary/90" asChild>
+                  <Link to="/get-started">Get Started</Link>
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -70,11 +96,26 @@ const Navigation = () => {
                 {link.name}
               </Link>
             ))}
-            <Button className="w-full bg-primary hover:bg-primary/90 mt-4" asChild>
-              <Link to="/get-started" onClick={() => setIsOpen(false)}>
-                Get Started
-              </Link>
-            </Button>
+            {user ? (
+              <Button className="w-full mt-4" variant="outline" asChild>
+                <Link to="/dashboard" onClick={() => setIsOpen(false)}>
+                  Dashboard
+                </Link>
+              </Button>
+            ) : (
+              <>
+                <Button className="w-full mt-4" variant="outline" asChild>
+                  <Link to="/auth" onClick={() => setIsOpen(false)}>
+                    Sign In
+                  </Link>
+                </Button>
+                <Button className="w-full bg-primary hover:bg-primary/90" asChild>
+                  <Link to="/get-started" onClick={() => setIsOpen(false)}>
+                    Get Started
+                  </Link>
+                </Button>
+              </>
+            )}
           </div>
         )}
       </div>

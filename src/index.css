@@ -17,7 +17,7 @@ All colors MUST be HSL.
     --popover: 230 30% 10%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 348 83% 58%;
+    --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 230 25% 15%;
@@ -26,7 +26,7 @@ All colors MUST be HSL.
     --muted: 230 25% 20%;
     --muted-foreground: 220 10% 65%;
 
-    --accent: 348 83% 58%;
+    --accent: 217 91% 60%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -34,23 +34,23 @@ All colors MUST be HSL.
 
     --border: 230 25% 20%;
     --input: 230 25% 20%;
-    --ring: 348 83% 58%;
+    --ring: 217 91% 60%;
 
     --radius: 0.75rem;
 
     /* Tech theme colors */
-    --tech-primary: 348 83% 58%;
-    --tech-glow: 348 100% 65%;
+    --tech-primary: 217 91% 60%;
+    --tech-glow: 217 100% 70%;
     --tech-dark: 230 35% 7%;
     --tech-card: 230 30% 10%;
     --tech-border: 230 25% 20%;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(348 83% 58%) 0%, hsl(348 83% 48%) 100%);
-    --gradient-radial: radial-gradient(circle at center, hsl(348 83% 58% / 0.15) 0%, transparent 70%);
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(217 91% 50%) 100%);
+    --gradient-radial: radial-gradient(circle at center, hsl(217 91% 60% / 0.15) 0%, transparent 70%);
     
     /* Shadows */
-    --shadow-glow: 0 0 30px hsl(348 83% 58% / 0.3);
+    --shadow-glow: 0 0 30px hsl(217 91% 60% / 0.3);
     --shadow-card: 0 8px 32px hsl(230 35% 7% / 0.5);
 
     /* Animations */

@@ -46,7 +46,7 @@ const GetStarted = () => {
             Let's Build Something <span className="text-primary">Amazing</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto animate-fade-in-up">
-            Start your digital transformation journey with Mawrld Tech. Tell us about your project and we'll get back to you within 24 hours.
+            Start your digital transformation journey with Suko Devs Crew. Tell us about your project and we'll get back to you within 24 hours.
           </p>
         </div>
       </section>
@@ -164,10 +164,10 @@ const GetStarted = () => {
                       <SelectValue placeholder="Select budget range" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="10k">$10,000 - $25,000</SelectItem>
-                      <SelectItem value="25k">$25,000 - $50,000</SelectItem>
-                      <SelectItem value="50k">$50,000 - $100,000</SelectItem>
-                      <SelectItem value="100k">$100,000+</SelectItem>
+                      <SelectItem value="10k">$1,000 - $2,500</SelectItem>
+                      <SelectItem value="25k">$2,500 - $5,000</SelectItem>
+                      <SelectItem value="50k">$5,000 - $10,000</SelectItem>
+                      <SelectItem value="100k">$10,000+</SelectItem>
                     </SelectContent>
                   </Select>
                   <ValidationError 
@@ -209,7 +209,7 @@ const GetStarted = () => {
               <div>
                 <h2 className="text-3xl font-bold mb-8">What to Expect</h2>
                 <p className="text-muted-foreground mb-8">
-                  When you partner with Mawrld Tech, you're not just hiring a development team—you're gaining a strategic partner committed to your success.
+                  When you partner with Suko Devs Crew, you're not just hiring a development team—you're gaining a strategic partner committed to your success.
                 </p>
               </div>
 

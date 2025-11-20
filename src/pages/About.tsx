@@ -29,12 +29,12 @@ const About = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navigation />
-      
+
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-6">
         <div className="container mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up">
-            About <span className="text-primary">Mawrld Tech</span>
+            About <span className="text-primary">Suko Devs Crew</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto animate-fade-in-up">
             Transforming ideas into digital reality since our inception
@@ -48,7 +48,7 @@ const About = () => {
           <h2 className="text-4xl font-bold mb-8 text-center">Our Story</h2>
           <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
             <p>
-              Mawrld Tech Inc was founded with a simple yet powerful vision: to bridge the gap between innovative 
+              SUKO DEVS CREW was founded with a simple yet powerful vision: to bridge the gap between innovative 
               technology and business success. What started as a small team of passionate developers has grown into 
               a full-service technology company serving clients worldwide.
             </p>

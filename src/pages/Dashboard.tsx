@@ -78,7 +78,7 @@ const Dashboard = () => {
       <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <h1 className="text-2xl font-bold">
-            <span>Mawrld</span> <span className="text-primary">Dashboard</span>
+            <span>Suko Devs</span> <span className="text-primary">Dashboard</span>
           </h1>
           <Button variant="outline" onClick={handleSignOut}>
             <LogOut className="mr-2 h-4 w-4" />

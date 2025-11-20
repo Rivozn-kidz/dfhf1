@@ -13,7 +13,7 @@ const teamMembers = [
   {
     name: "Kelvin Tech",
     role: "Head of Design",
-    image: "https://files.catbox.moe/os3fms.jpg?w=400&h=400&fit=crop",
+    image: "https://files.catbox.moe/uw1n4n.jpg?w=400&h=400&fit=crop",
     instagram: "https://linkedin.com/in/rivonz",
     twitter: "https://x.com/rivonz",
     github: "https://github.com/rivonzdev",
